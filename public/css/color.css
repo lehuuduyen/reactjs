@@ -1,0 +1,18 @@
+.button {
+    padding:20px
+}
+.button:active {
+    border:3px solid black
+}
+.btn-color-red{
+    background-color:red
+}
+.btn-color-green{
+    background-color:green
+}
+.btn-color-blue{
+    background-color:blue
+}
+.btn-color-pink{
+    background-color:pink
+}
