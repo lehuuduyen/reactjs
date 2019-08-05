@@ -1,18 +1,34 @@
 .button {
-    padding:20px
+    padding: 20px
 }
+
 .button:active {
-    border:3px solid black
+    border: 3px solid black
 }
-.btn-color-red{
-    background-color:red
+
+.btn-color-red {
+    background-color: red
 }
-.btn-color-green{
-    background-color:green
+
+.btn-color-green {
+    background-color: green
 }
-.btn-color-blue{
-    background-color:blue
+
+.btn-color-blue {
+    background-color: blue
 }
-.btn-color-pink{
-    background-color:pink
+
+.btn-color-pink {
+    background-color: pink
+}
+
+.border-red {
+    border: 3px solid red;
+    text-align: center;
+    margin-top: 10px
+}
+
+.active {
+    padding: 10px;
+    border: solid 3px black
 }

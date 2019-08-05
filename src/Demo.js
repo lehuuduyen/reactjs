@@ -1,28 +1,46 @@
-import React from 'react';
+import React ,{Component} from 'react';
 import './App.css';
-import ColorPicker from './component/settingColor/ColorPicker'
-import SizeSetting from './component/settingColor/SizeSetting'
+import ColorPicker from './component/settingColor/ColorPicker';
+import SizeSetting from './component/settingColor/SizeSetting';
+import Result from './component/settingColor/Result';
 
-function Demo() {
-  return (
-      
-    <div className='container mt-50'>
-        <div className='row'>
-          {/* color picker */}
-          <ColorPicker/>
+class Demo extends Component {
 
-          <SizeSetting/>
-          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <p>Color : red - Fontsize : 15px</p>
-            <div id="content" >
-              Nội dung setting
-            </div>
+  constructor(probs){
+    super(probs);
+    this.state ={
+      'color':'red'
+    }
+  }
+  onSetColor = (color) =>{
+    this.setState({
+      'color':color
+    })
+  }
+
+
+  render(){
+
+    return (
+        
+      <div className='container mt-50'>
+          <div className='row'>
+            {/* color picker */}
+            <ColorPicker color={this.state.color} onReceveColor={this.onSetColor}/>
+
+            <SizeSetting/>
+            
+            <Result/>
+
+  
+            
           </div>
         </div>
-      </div>
 
 
-  );
+    ); 
+  }
+
 }
 
 export default Demo;
