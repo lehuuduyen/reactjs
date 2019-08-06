@@ -9,15 +9,22 @@ class Demo extends Component {
   constructor(probs){
     super(probs);
     this.state ={
-      'color':'red'
-    }
+      'color':'red',
+      'size':15
+    } 
   }
   onSetColor = (color) =>{
-    this.setState({
-      'color':color
+    this.setState({ 
+      'color':color,
+      
     })
   }
-
+  onSetSize =(size)=>{
+    this.setState({ 
+      'size':size,
+      
+    })
+  }
 
   render(){
 
@@ -28,9 +35,9 @@ class Demo extends Component {
             {/* color picker */}
             <ColorPicker color={this.state.color} onReceveColor={this.onSetColor}/>
 
-            <SizeSetting/>
+            <SizeSetting size={this.state.size} onReceiverSize={this.onSetSize} />
             
-            <Result/>
+            <Result color={this.state.color} size={this.state.size}  />
 
   
             
