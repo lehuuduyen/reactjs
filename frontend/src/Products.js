@@ -2,12 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-function Register() {
-  useEffect(() => {
-    if (localStorage.getItem("user-info")) {
-      navigate("/");
-    }
-  });
+function Product() {
+
   const [form, setForm] = useState({
     name: String,
     password: String,
@@ -42,7 +38,7 @@ function Register() {
     if (messsage) {
       toast.error(messsage);
     } else {
-      let result = await fetch("http://hyokkoriwan.dev.com/api/register", {
+      let result = await fetch("http://hyokkoriwan.dev.com/api/product", {
         method: "POST",
         body: JSON.stringify(form),
         headers: {
@@ -68,10 +64,10 @@ function Register() {
       <div className="row justify-content-center">
         <div className="col-md-8">
           <div className="card">
-            <div className="card-header">Register</div>
+            <div className="card-header">Product</div>
 
             <div className="card-body">
-              <form method="POST" action="http://hyokkoriwan.dev.com/register">
+              <form method="POST" action="http://hyokkoriwan.dev.com/product">
                 <input
                   type="hidden"
                   name="_token"
@@ -177,7 +173,7 @@ function Register() {
                       type="button"
                       className="btn btn-primary"
                     >
-                      Register
+                      Product
                     </button>
                   </div>
                 </div>
@@ -190,4 +186,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Product;
