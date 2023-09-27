@@ -10,17 +10,13 @@ import Product from "./Products";
 import Protected from "./Protected";
 import ProtectedRole from "./ProtectedRole";
 import { useEffect, useState } from "react";
+import Customers from "./Customers";
+import Kho from "./Kho";
+import { Roles } from "./helper/roles";
+import View403 from "./View403";
 function App() {
-  const [user, setUser] = useState({}); // Initialize user as an empty object
 
-  useEffect(()=>{
-    let user ={}
-    if(localStorage.getItem('user-info')){
-      user = localStorage.getItem('user-info')
-      setUser(user)
-    }
-
-  })
+  
   return (
     <div className="App">
       <ToastContainer />
@@ -30,25 +26,16 @@ function App() {
           <Header></Header>
         </header>
         <Routes>
-          {/* <Route path="/" Cmp={Product} element={<Protected />}>
-            <Route exact  path="/product" element={<Product />} ></Route>
-          </Route> */}
+       
 
-          <Route path="/" element={<Protected />}>
-            <Route path="/products" element={<ProtectedRole user={user} roles={['admin','kho']} />}></Route>
-            <Route path="/customer" element={<Register />} />
-            <Route path="/kho" element={<Register />} />
+          <Route path="/" element={<Protected  />}>
+            <Route path="/products" element={<ProtectedRole  roles={[Roles.admin]} view={Product} />}></Route>
+            <Route path="/customer" element={<ProtectedRole  roles={[Roles.admin,Roles.kho]} view={Customers} />} />
+            <Route path="/kho" element={<ProtectedRole  roles={[Roles.admin,Roles.kho]} view={Kho} />} />
           </Route>
-          {/*           
           <Route path="/login" element={<Login />} />
+          <Route path="/view403" element={<View403 />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/product"></Route>
-          <Protected path="/protected" element={<Product />} />
-
-          <Route path="/customer" element={<Register />} />
-          <Route path="/kho" element={<Register />} /> */}
         </Routes>
       </BrowserRouter>
     </div>

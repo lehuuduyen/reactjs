@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { API } from "./helper/api";
 
 function Register() {
   useEffect(() => {
     if (localStorage.getItem("user-info")) {
-      navigate("/");
+      navigate("/products");
     }
   });
   const [form, setForm] = useState({
@@ -14,7 +15,6 @@ function Register() {
     passwordConfirm: String,
     role: 1,
     email: String,
-    passwordConfirm: String,
   });
   const onUpdateField = (e) => {
     const nextFormState = {
@@ -36,13 +36,13 @@ function Register() {
       messsage = "Confirm Password không được để trống";
     } else if (!form.email) {
       messsage = "Email không được để trống";
-    } else if (form.password != form.passwordConfirm) {
+    } else if (form.password !== form.passwordConfirm) {
       messsage = "Password nhập không giống nhau";
     }
     if (messsage) {
       toast.error(messsage);
     } else {
-      let result = await fetch("http://hyokkoriwan.dev.com/api/register", {
+      let result = await fetch(API.back_end +"register", {
         method: "POST",
         body: JSON.stringify(form),
         headers: {
@@ -57,10 +57,10 @@ function Register() {
         toast.error(result.message);
       } else {
         toast.success(result.message);
+        localStorage.setItem("user-info", JSON.stringify(result));
+        navigate("/products");
       }
 
-      // localStorage.setItem("user-info", JSON.stringify(result));
-      // navigate("/");
     }
   }
   return (

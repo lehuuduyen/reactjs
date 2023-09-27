@@ -1,29 +1,28 @@
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function ProtectedRole(props) {
-  const user = true;
-  const listRoles = props.roles
-  console.log('====================================');
-  console.log(props.user);
-  console.log('====================================');
+  const listRoles = props.roles;
+  const navigate = useNavigate();
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+  useEffect(() => {
+    let user = localStorage.getItem("user-info");
+    if(user){
+      user = JSON.parse(user);
+      if (!listRoles.includes(user.role)) {
+        navigate('/view403')
+      }
+    }else{
+      navigate('/login')
+    }
+   
+  });
 
   return (
     <>
-      <Outlet />
-      {props.children}
+      <props.view></props.view>
     </>
   );
-
-  // return (
-  //   <div className="container form-login">
-
-  //   </div>
-  // );
 }
 
 export default ProtectedRole;

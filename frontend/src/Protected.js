@@ -1,12 +1,14 @@
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
 function Protected(props) {
-  const user = true;
+  const navigate = useNavigate();
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+  useEffect(() => {
+    if (!localStorage.getItem("user-info")) {
+      navigate("/login");
+    }
+  });
 
   return (
     <>

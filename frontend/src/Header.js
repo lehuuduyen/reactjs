@@ -1,11 +1,24 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 function Header() {
+  const [user,setUser] = useState();
+  useEffect(()=>{
+    if(localStorage.getItem("user-info")){
+      setUser(localStorage.getItem("user-info"))
+    }
+  })
+  const navigate = useNavigate()
+  function logOut(){
+    localStorage.clear()
+    setUser()
+    navigate('/login')
+  }
   return (
     <div>
       <nav className="mainNav w100 fll uln off-menu">
         <section className="container">
           <ul className="menu">
-            {localStorage.getItem("user-info") ? (
+            {user ? (
               <>
                 <li className="">
                   <Link to="/products">
@@ -19,7 +32,7 @@ function Header() {
                 </li>
 
                 <li>
-                  <Link to="/customer">
+                  <Link to="/kho">
                     <i className="fas fa-warehouse"></i>Kho
                   </Link>
                 </li>
@@ -42,7 +55,7 @@ function Header() {
                 <li className="ng-scope">
                   <ul>
                     <li className="  ng-scope" data-placement="right">
-                      <a href="/logout" className="kol-menu-item ng-binding">
+                      <a onClick={logOut} className="kol-menu-item ng-binding">
                         <i className="fa fa-sign-out"></i>Đăng xuất
                       </a>
                     </li>
