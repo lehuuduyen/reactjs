@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload, Modal, Image } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 const { Dragger } = Upload;
 
@@ -15,7 +16,6 @@ const getBase64 = (file) =>
 function Convert() {
   const [fileList, setFileList] = useState([]);
 
-
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
@@ -23,6 +23,9 @@ function Convert() {
   const handleCancel = () => setPreviewOpen(false);
 
   const handlePreview = async (file) => {
+    console.log(`file---------------`, file);
+    console.log(`file.response.message------------`, file.response.message);
+
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
@@ -33,73 +36,255 @@ function Convert() {
     );
   };
 
-//  function onDrop(e) {
-//     console.log("Dropped files", e.dataTransfer.files);
-//   }
+  function onDrop(e) {
+    console.log("Dropped files", e.dataTransfer.files);
+  }
 
   function onChange(info) {
-    // const { status } = info.file;
-    // console.log('-----1221ijkdnsjkandajk');
-    // setFileList(info.fileList);
-    // if (status !== "uploading") {
-    //   // console.log(info.file, info.fileList);
-    // }
-    // if (status === "done") {
-     
-    //   message.success(`${info.file.name} file uploaded successfully.`);
-    // } else if (status === "error") {
-    //   message.error(`${info.file.name} file upload failed.`);
-    // }
-    // console.log("====================================");
-    // console.log(info);
-    // console.log(fileList);
-    // console.log("====================================");
-     let newFileList = [...info.fileList];
-
-    // 1. Limit the number of uploaded files
-    // Only to show two recent uploaded files, and old ones will be replaced by the new
-    newFileList = newFileList.slice(-2);
-
-    // 2. Read from response and show file link
+    let newFileList = [...info.fileList];
     newFileList = newFileList.map((file) => {
       if (file.response) {
-        // Component will show file.url as link
         file.url = file.response.url;
       }
       return file;
     });
-
     setFileList(newFileList);
   }
-
+  const handleDownloadClick = (downloadLink) => {
+    const anchor = document.createElement('a');
+    anchor.href = downloadLink;
+    anchor.download = ''; // You can specify the desired filename here
+    anchor.click();
+  };
   return (
     <>
       <div style={{ textAlign: "center" }}>
-        <h1 class="text-color">Chuyển s sang a</h1>
+        <h1 className="text-color">Chuyển s sang a</h1>
       </div>
       <div
-        class="uk-card uk-card-default uk-card-hover uk-card-body form-section"
+        className="uk-card uk-card-default uk-card-hover uk-card-body form-section"
         style={{ height: "auto !important" }}
       >
-        <div class="uk-container uk-text-center">
-          <div class="upload-container">
-            <div class="upload-container-form">
+        <div className="uk-container uk-text-center">
+          <div className="upload-container">
+            <div className="upload-container-form">
               <Upload.Dragger
-                name= "file"
+                name="file"
                 multiple={true}
-                // onDrop={onDrop}
-                onChange={(e)=>onChange(e)}
+                onChange={(e) => onChange(e)}
                 action="http://convert.getlinktraffic.space/convert.php"
-                data={{ to: 'tinyPNG' }}
+                data={{ to: "tinyPNG" }}
                 fileList={fileList}
-              
-                itemRender={(originNode, file) => { 
-                  console.log('---------duyen',file.response,file) 
-                  return (
-                 originNode
-                )}}
-                listType="picture"
+                showUploadList={{ showDownloadIcon: true }}
                 onPreview={handlePreview}
+                itemRender={(
+                  originNode,
+                  file,
+                  fileList,
+                  { preview, remove }
+                ) => {
+                  const percent = file.percent;
+
+                  if (percent != 100) {
+                    return (
+                      <div className="ant-upload-list-item ant-upload-list-item-uploading">
+                        <div className="ant-upload-list-item-thumbnail">
+                          <span
+                            role="img"
+                            aria-label="loading"
+                            className="anticon anticon-loading anticon-spin"
+                          >
+                            <svg
+                              className="circular-loader"
+                              viewBox="25 25 50 50"
+                            >
+                              <circle
+                                className="loader-path"
+                                cx="50"
+                                cy="50"
+                                r="20"
+                                fill="none"
+                                stroke="#70c542"
+                                strokeWidth="2"
+                              />
+                            </svg>{" "}
+                          </span>
+                        </div>
+                        <span
+                          className="ant-upload-list-item-name"
+                          title="Ảnh màn hình 2023-07-25 lúc 22.07.08.png"
+                        >
+                          Ảnh màn hình 2023-07-25 lúc 22.07.08.png
+                        </span>
+                        <span className="ant-upload-list-item-actions picture">
+                          <button
+                            title="Remove file"
+                            type="button"
+                            className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text ant-btn-sm ant-btn-icon-only ant-upload-list-item-action"
+                          >
+                            <span className="ant-btn-icon">
+                              <span
+                                role="img"
+                                aria-label="delete"
+                                className="anticon anticon-delete"
+                              >
+                                <svg
+                                  viewBox="64 64 896 896"
+                                  focusable="false"
+                                  data-icon="delete"
+                                  width="1em"
+                                  height="1em"
+                                  fill="currentColor"
+                                  aria-hidden="true"
+                                >
+                                  <path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path>
+                                </svg>
+                              </span>
+                            </span>
+                          </button>
+                        </span>
+                        <div className="ant-upload-list-item-progress">
+                          <div
+                            className="ant-progress ant-progress-status-normal ant-progress-line css-dev-only-do-not-override-1ck3jst"
+                            role="progressbar"
+                            aria-valuenow="25"
+                          >
+                            <div
+                              className="ant-progress-outer"
+                              style={{ width: "100%", height: "2px" }}
+                            >
+                              <div className="ant-progress-inner">
+                                <div
+                                  className="ant-progress-bg"
+                                  style={{
+                                    width: percent + "%",
+                                    height: "2px",
+                                  }}
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  } else {
+                    let response = file.response?.data;
+                    let sizeOld = "";
+                    let sizeNew = "";
+                    let percent = "";
+                    let downloadLink = "";
+                    if (response) {
+                      response = JSON.parse(response);
+                      sizeOld = response.oldSize;
+                      sizeNew = response.newSize;
+                      percent = response.percent;
+                      downloadLink = file.response.message;
+                    }
+                    console.log(`downloadLink`, downloadLink);
+                    console.log(`response`, response);
+                    return (
+                      <div className="ant-upload-list-item ant-upload-list-item-done">
+                        <a
+                          className="ant-upload-list-item-thumbnail"
+                          // href={file.response?.message}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => handlePreview(file)}
+                        >
+                          <img
+                            src={file.thumbUrl}
+                            alt={file.name}
+                            className="ant-upload-list-item-image"
+                          />
+                        </a>
+                        <span
+                          className="ant-upload-list-item-name"
+                          title={file.name}
+                        >
+                          {file.name}
+                        </span>
+                        <span
+                          style={{ fontSize: "10px" }}
+                          className="ant-upload-list-item-name"
+                          title={sizeOld}
+                        >
+                          {sizeOld}
+                        </span>
+                        <span
+                          style={{ fontSize: "15px", color: "#7EB631" }}
+                          className="ant-upload-list-item-name"
+                          title={sizeNew}
+                        >
+                          {sizeNew}
+                        </span>
+                        <span
+                          className="ant-upload-list-item-name"
+                          title={percent}
+                        >
+                          {percent}
+                        </span>
+                        <span className="ant-upload-list-item-actions picture">
+                          <a href={ downloadLink }  download>
+                            <button
+                              title="Download file"
+                              type="button"
+                              class="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text ant-btn-sm ant-btn-icon-only ant-upload-list-item-action"
+                            >
+                              <span class="ant-btn-icon">
+                                <span
+                                  role="img"
+                                  aria-label="download"
+                                  tabindex="-1"
+                                  class="anticon anticon-download"
+                                >
+                                  <svg
+                                    viewBox="64 64 896 896"
+                                    focusable="false"
+                                    data-icon="download"
+                                    width="1em"
+                                    height="1em"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                  >
+                                    <path d="M505.7 661a8 8 0 0012.6 0l112-141.7c4.1-5.2.4-12.9-6.3-12.9h-74.1V168c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v338.3H400c-6.7 0-10.4 7.7-6.3 12.9l112 141.8zM878 626h-60c-4.4 0-8 3.6-8 8v154H214V634c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v198c0 17.7 14.3 32 32 32h684c17.7 0 32-14.3 32-32V634c0-4.4-3.6-8-8-8z"></path>
+                                  </svg>
+                                </span>
+                              </span>
+                            </button>
+                          </a>
+                          <button
+                            title="Remove file"
+                            type="button"
+                            onClick={() => remove(file)}
+                            className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text ant-btn-sm ant-btn-icon-only ant-upload-list-item-action"
+                            style={{ marginLeft: "5px" }}
+                          >
+                            <span className="ant-btn-icon">
+                              <span
+                                role="img"
+                                aria-label="delete"
+                                className="anticon anticon-delete"
+                              >
+                                <svg
+                                  viewBox="64 64 896 896"
+                                  focusable="false"
+                                  data-icon="delete"
+                                  width="1em"
+                                  height="1em"
+                                  fill="currentColor"
+                                  aria-hidden="true"
+                                >
+                                  <path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path>
+                                </svg>
+                              </span>
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+                    );
+                  }
+                }}
+                listType="picture"
               >
                 <p>Drag here</p>
               </Upload.Dragger>
@@ -117,17 +302,17 @@ function Convert() {
                   src={previewImage}
                 />
               </Modal>
-              <div class="action-bottom">
-                <p class="uk-text-center"></p>
+              <div className="action-bottom">
+                <p className="uk-text-center"></p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="uk-section-xsmall uk-section-muted">
-        <div class="uk-container ">
-          <div class="uk-card uk-card-default uk-card-hover uk-text-center">
-            <div class="uk-card-header">
+      <div className="uk-section-xsmall uk-section-muted">
+        <div className="uk-container ">
+          <div className="uk-card uk-card-default uk-card-hover uk-text-center">
+            <div className="uk-card-header">
               <h2>Làm cách nào để chuyển đổi xxxx sang aaas trực tuyến?</h2>
               <div>
                 Hướng dẫn từng bước để chuyển đổi xxxxxxxxxxxx sang yyyyyyyyyyy
@@ -135,42 +320,42 @@ function Convert() {
                 di động (iPhone, Android).
               </div>
             </div>
-            <div class="uk-card-body uk-padding-small uk-padding-remove-top uk-margin-remove uk-flex uk-child-width-1-3@m content--how-to-convert__steps">
-              <div class="step">
-                <div class="uk-margin-remove-adjacent step--img">
+            <div className="uk-card-body uk-padding-small uk-padding-remove-top uk-margin-remove uk-flex uk-child-width-1-3@m content--how-to-convert__steps">
+              <div className="step">
+                <div className="uk-margin-remove-adjacent step--img">
                   {" "}
-                  <svg class="uk-width-small"></svg>{" "}
+                  <svg className="uk-width-small"></svg>{" "}
                 </div>
-                <div class="step--title">
+                <div className="step--title">
                   <h3 id="#step-1">Tải lên tệp xxxxxxxxxxxx</h3>
                 </div>
-                <div class="step--description">
+                <div className="step--description">
                   Kéo và thả tệp xxxxxxxxxxxxxx của bạn vào khu vực tải lên.
                   Kích thước tệp tối đa là 100&nbsp;MB.
                 </div>
               </div>
-              <div class="step" id="step-2">
-                <div class="uk-margin-remove-adjacent step--img">
+              <div className="step" id="step-2">
+                <div className="uk-margin-remove-adjacent step--img">
                   {" "}
-                  <svg class="uk-width-small"></svg>{" "}
+                  <svg className="uk-width-small"></svg>{" "}
                 </div>
-                <div class="step--title">
+                <div className="step--title">
                   <h3>đổi xxxxxxxxxxxx sang yyyyyyyyyyyy</h3>
                 </div>
-                <div class="step--description">
+                <div className="step--description">
                   Nhấp vào "Chuyển đổi" để thay đổi xxxxxxxxx thành yyyyyyyyyy.
                   Quá trình chuyển đổi thường mất vài giây.
                 </div>
               </div>
-              <div class="step">
-                <div class="uk-margin-remove-adjacent step--img">
+              <div className="step">
+                <div className="uk-margin-remove-adjacent step--img">
                   {" "}
-                  <svg class="uk-width-small"></svg>{" "}
+                  <svg className="uk-width-small"></svg>{" "}
                 </div>
-                <div class="step--title">
+                <div className="step--title">
                   <h3 id="#step-3">Tải xuống tệp xxxxxxxxxxxx</h3>
                 </div>
-                <div class="step--description">
+                <div className="step--description">
                   Bây giờ bạn có thể tải xuống tệp xxxxxxxxxxxx. Liên kết tải
                   xuống chỉ hoạt động trên thiết bị của bạn.
                 </div>
@@ -179,15 +364,15 @@ function Convert() {
           </div>
         </div>
       </div>
-      <div class="uk-section-xsmall uk-padding-remove">
-        <div class="uk-container">
-          <div class="uk-card uk-card-body ">
-            <div class="uk-text-left uk-text-large">
-              <h3 class="text-color"> Chuyển đổi PNG </h3>
+      <div className="uk-section-xsmall uk-padding-remove">
+        <div className="uk-container">
+          <div className="uk-card uk-card-body ">
+            <div className="uk-text-left uk-text-large">
+              <h3 className="text-color"> Chuyển đổi PNG </h3>
             </div>
-            <div class="uk-container uk-align-center uk-child-width-1-1@s uk-child-width-1-6@l r">
-              <div class="uk-button">
-                <div class="uk-text-center">
+            <div className="uk-container uk-align-center uk-child-width-1-1@s uk-child-width-1-6@l r">
+              <div className="uk-button">
+                <div className="uk-text-center">
                   {" "}
                   <a href="/chuyen-doi-png-sang-tinypng/">
                     {" "}
@@ -195,26 +380,26 @@ function Convert() {
                   </a>{" "}
                 </div>
               </div>
-              <div class="uk-button">
-                <div class="uk-text-center">
+              <div className="uk-button">
+                <div className="uk-text-center">
                   {" "}
                   <a href="/chuyen-doi-png-sang-jpg/"> PNG sang JPG </a>{" "}
                 </div>
               </div>
-              <div class="uk-button">
-                <div class="uk-text-center">
+              <div className="uk-button">
+                <div className="uk-text-center">
                   {" "}
                   <a href="/chuyen-doi-png-sang-jpeg/"> PNG sang JPEG </a>{" "}
                 </div>
               </div>
-              <div class="uk-button">
-                <div class="uk-text-center">
+              <div className="uk-button">
+                <div className="uk-text-center">
                   {" "}
                   <a href="/chuyen-doi-png-sang-pdf/"> PNG sang PDF </a>{" "}
                 </div>
               </div>
-              <div class="uk-button">
-                <div class="uk-text-center">
+              <div className="uk-button">
+                <div className="uk-text-center">
                   {" "}
                   <a href="/chuyen-doi-png-sang-ico/"> PNG sang ICO </a>{" "}
                 </div>
@@ -222,14 +407,14 @@ function Convert() {
             </div>
           </div>
         </div>
-        <div class="uk-container">
-          <div class="uk-card uk-card-body ">
-            <div class="uk-text-left uk-text-large">
-              <h3 class="text-color"> Chuyển đổi JPG </h3>
+        <div className="uk-container">
+          <div className="uk-card uk-card-body ">
+            <div className="uk-text-left uk-text-large">
+              <h3 className="text-color"> Chuyển đổi JPG </h3>
             </div>
-            <div class="uk-container uk-align-center uk-child-width-1-1@s uk-child-width-1-6@l r">
-              <div class="uk-button">
-                <div class="uk-text-center">
+            <div className="uk-container uk-align-center uk-child-width-1-1@s uk-child-width-1-6@l r">
+              <div className="uk-button">
+                <div className="uk-text-center">
                   {" "}
                   <a href="/chuyen-doi-jpg-sang-tinypng/">
                     {" "}
@@ -237,20 +422,20 @@ function Convert() {
                   </a>{" "}
                 </div>
               </div>
-              <div class="uk-button">
-                <div class="uk-text-center">
+              <div className="uk-button">
+                <div className="uk-text-center">
                   {" "}
                   <a href="/chuyen-doi-jpg-sang-png/"> JPG sang PNG </a>{" "}
                 </div>
               </div>
-              <div class="uk-button">
-                <div class="uk-text-center">
+              <div className="uk-button">
+                <div className="uk-text-center">
                   {" "}
                   <a href="/chuyen-doi-jpg-sang-pdf/"> JPG sang PDF </a>{" "}
                 </div>
               </div>
-              <div class="uk-button">
-                <div class="uk-text-center">
+              <div className="uk-button">
+                <div className="uk-text-center">
                   {" "}
                   <a href="/chuyen-doi-jpg-sang-ico/"> JPG sang ICO </a>{" "}
                 </div>
@@ -258,26 +443,26 @@ function Convert() {
             </div>
           </div>
         </div>
-        <div class="uk-container">
-          <div class="uk-card uk-card-body ">
-            <div class="uk-text-left uk-text-large">
-              <h3 class="text-color"> Chuyển đổi JPEG </h3>
+        <div className="uk-container">
+          <div className="uk-card uk-card-body ">
+            <div className="uk-text-left uk-text-large">
+              <h3 className="text-color"> Chuyển đổi JPEG </h3>
             </div>
-            <div class="uk-container uk-align-center uk-child-width-1-1@s uk-child-width-1-6@l r">
-              <div class="uk-button">
-                <div class="uk-text-center">
+            <div className="uk-container uk-align-center uk-child-width-1-1@s uk-child-width-1-6@l r">
+              <div className="uk-button">
+                <div className="uk-text-center">
                   {" "}
                   <a href="/chuyen-doi-jpeg-sang-ico/"> JPEG sang PNG </a>{" "}
                 </div>
               </div>
-              <div class="uk-button">
-                <div class="uk-text-center">
+              <div className="uk-button">
+                <div className="uk-text-center">
                   {" "}
                   <a href="/chuyen-doi-jpeg-sang-ico/"> JPEG sang PDF </a>{" "}
                 </div>
               </div>
-              <div class="uk-button">
-                <div class="uk-text-center">
+              <div className="uk-button">
+                <div className="uk-text-center">
                   {" "}
                   <a href="/chuyen-doi-jpeg-sang-ico/"> JPEG sang ICO </a>{" "}
                 </div>
