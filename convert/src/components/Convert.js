@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload, Modal, Image } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import ProgressBar from "react-bootstrap/ProgressBar";
-
-const { Dragger } = Upload;
+import {
+  LoadingOutlined,
+  SmileOutlined,
+  SolutionOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Steps } from "antd";
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -51,10 +53,21 @@ function Convert() {
     setFileList(newFileList);
   }
   const handleDownloadClick = (downloadLink) => {
-    const anchor = document.createElement('a');
-    anchor.href = downloadLink;
-    anchor.download = ''; // You can specify the desired filename here
-    anchor.click();
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", downloadLink, true);
+    // xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+    xhr.responseType = "blob";
+    xhr.onload = function () {
+      var urlCreator = window.URL || window.webkitURL;
+      var imageUrl = urlCreator.createObjectURL(this.response);
+      var tag = document.createElement("a");
+      tag.href = imageUrl;
+      tag.download = downloadLink.lastIndexOf("/") + 1;
+      document.body.appendChild(tag);
+      tag.click();
+      document.body.removeChild(tag);
+    };
+    xhr.send();
   };
   return (
     <>
@@ -85,7 +98,7 @@ function Convert() {
                 ) => {
                   const percent = file.percent;
 
-                  if (percent != 100) {
+                  if (percent !== 100) {
                     return (
                       <div className="ant-upload-list-item ant-upload-list-item-uploading">
                         <div className="ant-upload-list-item-thumbnail">
@@ -112,9 +125,9 @@ function Convert() {
                         </div>
                         <span
                           className="ant-upload-list-item-name"
-                          title="Ảnh màn hình 2023-07-25 lúc 22.07.08.png"
+                          title={file.name}
                         >
-                          Ảnh màn hình 2023-07-25 lúc 22.07.08.png
+                          {file.name}{" "}
                         </span>
                         <span className="ant-upload-list-item-actions picture">
                           <button
@@ -184,51 +197,53 @@ function Convert() {
                     console.log(`response`, response);
                     return (
                       <div className="ant-upload-list-item ant-upload-list-item-done">
-                        <a
-                          className="ant-upload-list-item-thumbnail"
-                          // href={file.response?.message}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={() => handlePreview(file)}
-                        >
-                          <img
-                            src={file.thumbUrl}
-                            alt={file.name}
-                            className="ant-upload-list-item-image"
-                          />
-                        </a>
-                        <span
-                          className="ant-upload-list-item-name"
-                          title={file.name}
-                        >
-                          {file.name}
-                        </span>
-                        <span
-                          style={{ fontSize: "10px" }}
-                          className="ant-upload-list-item-name"
-                          title={sizeOld}
-                        >
-                          {sizeOld}
-                        </span>
-                        <span
-                          style={{ fontSize: "15px", color: "#7EB631" }}
-                          className="ant-upload-list-item-name"
-                          title={sizeNew}
-                        >
-                          {sizeNew}
-                        </span>
-                        <span
-                          className="ant-upload-list-item-name"
-                          title={percent}
-                        >
-                          {percent}
-                        </span>
-                        <span className="ant-upload-list-item-actions picture">
-                          <a href={ downloadLink }  download>
+                        <div className="col1">
+                          <a
+                            className="ant-upload-list-item-thumbnail"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => handlePreview(file)}
+                          >
+                            <img
+                              src={file.thumbUrl}
+                              alt={file.name}
+                              className="ant-upload-list-item-image"
+                            />
+                          </a>
+                          <span
+                            className="ant-upload-list-item-name"
+                            title={file.name}
+                          >
+                            {file.name}
+                          </span>
+                        </div>
+                        <div className="col2">
+                          <span
+                            style={{ fontSize: "10px" }}
+                            className="ant-upload-list-item-name"
+                            title={sizeOld}
+                          >
+                            {sizeOld}
+                          </span>
+                          <span
+                            style={{ fontSize: "15px", color: "#7EB631" }}
+                            className="ant-upload-list-item-name"
+                            title={sizeNew}
+                          >
+                            {sizeNew}
+                          </span>
+                          <span
+                            className="ant-upload-list-item-name"
+                            title={percent}
+                          >
+                            {percent}
+                          </span>
+                          <span className="ant-upload-list-item-actions picture">
                             <button
                               title="Download file"
                               type="button"
                               class="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text ant-btn-sm ant-btn-icon-only ant-upload-list-item-action"
+                              onClick={() => handleDownloadClick(downloadLink)}
                             >
                               <span class="ant-btn-icon">
                                 <span
@@ -251,35 +266,35 @@ function Convert() {
                                 </span>
                               </span>
                             </button>
-                          </a>
-                          <button
-                            title="Remove file"
-                            type="button"
-                            onClick={() => remove(file)}
-                            className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text ant-btn-sm ant-btn-icon-only ant-upload-list-item-action"
-                            style={{ marginLeft: "5px" }}
-                          >
-                            <span className="ant-btn-icon">
-                              <span
-                                role="img"
-                                aria-label="delete"
-                                className="anticon anticon-delete"
-                              >
-                                <svg
-                                  viewBox="64 64 896 896"
-                                  focusable="false"
-                                  data-icon="delete"
-                                  width="1em"
-                                  height="1em"
-                                  fill="currentColor"
-                                  aria-hidden="true"
+                            <button
+                              title="Remove file"
+                              type="button"
+                              onClick={() => remove(file)}
+                              className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text ant-btn-sm ant-btn-icon-only ant-upload-list-item-action"
+                              style={{ marginLeft: "5px" }}
+                            >
+                              <span className="ant-btn-icon">
+                                <span
+                                  role="img"
+                                  aria-label="delete"
+                                  className="anticon anticon-delete"
                                 >
-                                  <path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path>
-                                </svg>
+                                  <svg
+                                    viewBox="64 64 896 896"
+                                    focusable="false"
+                                    data-icon="delete"
+                                    width="1em"
+                                    height="1em"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                  >
+                                    <path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path>
+                                  </svg>
+                                </span>
                               </span>
-                            </span>
-                          </button>
-                        </span>
+                            </button>
+                          </span>
+                        </div>
                       </div>
                     );
                   }

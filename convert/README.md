@@ -1,26 +1,68 @@
-## Available Scripts
 
-In the project directory, you can run:
+# Newsmonk
+ A Reactjs web App to get daily news including categories.
+ 
+## Acknowledgements
 
-`npm start`
+ - [NewsApi](https://newsapi.org)
+ 
 
-### Install booostrap 🔗 [Links](https://react-bootstrap.netlify.app/docs/getting-started/introduction)
-Có thể cài để sử dụng tag bootstrap  của react hoặc không cài thì dùng link bootstrap cũng được
 
-`npm install react-bootstrap bootstrap`
+## Authors
 
-### Install router-dom 
+- [@0Pixel0](https://www.github.com/0Pixel0)
 
-`npm install react-router-dom`
 
-### Install GSAP 
-GSAP là một thư viện JavaScript mạnh mẽ cho việc tạo và kiểm soát các hoạt động và hiệu ứng trong trang web.
+## Contributing
 
-`npm install gsap`
+Contributions are always welcome!
 
-### Install node-sass 
-node-sass là một thư viện Node.js cho phép bạn sử dụng Sass (Syntactically Awesome Stylesheets) trong dự án web của bạn.
 
-`npm install node-sass`
+
+
+## Tech Stack
+
+**Client:** React ,Bootstrap.
+
+
+
+## Screenshots
+
+![App Screenshot](https://github.com/0Pixel0/news-monk/blob/master/public/Screenshot%202022-03-20%20at%205.21.11%20PM.png)
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/0Pixel0/news-monk
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
+
+## Deployment
+
+Project cant be deployed due to API constraints.
+## Support
+
+For support, email ashutoshpunia690@gmail.com
 
 
