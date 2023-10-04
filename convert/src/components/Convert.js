@@ -374,9 +374,9 @@ function Convert() {
                   }}
                   listType="picture"
                 >
-                   <p style={{ fontSize: 50, color: '#999' }}>
+                   <div style={{ fontSize: 50, color: '#999' }}>
       <InboxOutlined />
-    </p>
+    </div>
                   <p>Drag here</p>
                 </Upload.Dragger>
                 <Modal

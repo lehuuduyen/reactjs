@@ -27,6 +27,9 @@ body {
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
+.uk-card.uk-card-default.uk-card-hover.uk-card-body.form-section {
+  width: 100%;
+}
 ul.navbar-nav.sp-font.h5 {
   display: flex;
   column-gap: 80px;

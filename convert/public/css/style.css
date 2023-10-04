@@ -43,9 +43,15 @@ div {
     margin-right: auto;
     margin-left: auto;
 }
-
+.ant-upload-wrapper .ant-upload-drag{
+border-width: 2px !important;
+background: transparent;
+}
+.ant-upload-wrapper .ant-upload-drag p{
+    margin: 0;
+    }
 .upload-container-form {
-    border: 1px solid #a00;
+    /* border: 1px solid #a00; */
     margin: 10px auto;
     font-size: 18px;
     line-height: 1.6em;
