@@ -4,6 +4,7 @@ import "./App.css";
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
 import News from "./components/News";
+import { ToastContainer } from "react-toastify";
 import { Loading } from "./components/Loading";
 //react-router
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
@@ -12,6 +13,8 @@ export default class App extends Component {
   render() {
     return (
       <>
+      <ToastContainer />
+
         <BrowserRouter>
           <Navbar />
 

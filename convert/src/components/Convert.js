@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { message, Upload, Modal, Image } from "antd";
+import React, { useEffect, useState } from "react";
+import { message, Upload, Modal, Image, Select, Tag, Button } from "antd";
 import {
   LoadingOutlined,
   SmileOutlined,
   SolutionOutlined,
-  UserOutlined,
+  DeleteOutlined,
+  CloudUploadOutlined,
 } from "@ant-design/icons";
-import { InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined } from "@ant-design/icons";
 import { Steps } from "antd";
 import {
   AppstoreOutlined,
@@ -14,6 +15,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
+
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -24,46 +26,30 @@ function getItem(label, key, icon, children, type) {
   };
 }
 const items = [
-  getItem("Navigation One", "sub1", <MailOutlined />, [
-    getItem(
-      "Item 1",
-      "g1",
-      null,
-      [getItem("Option 1", "1"), getItem("Option 2", "2")],
-      "group"
-    ),
-    getItem(
-      "Item 2",
-      "g2",
-      null,
-      [getItem("Option 3", "3"), getItem("Option 4", "4")],
-      "group"
-    ),
-  ]),
-  getItem("Navigation Two", "sub2", <AppstoreOutlined />, [
-    getItem("Option 5", "5"),
-    getItem("Option 6", "6"),
-    getItem("Submenu", "sub3", null, [
-      getItem("Option 7", "7"),
-      getItem("Option 8", "8"),
-    ]),
+  getItem("PNG", "sub1", <AppstoreOutlined />, [
+    getItem("TINYPNG", "1"),
+    getItem("JPEG", "2"),
+    getItem("JPG", "3"),
+    getItem("PDF", "4"),
+    getItem("ICO", "5"),
   ]),
   {
     type: "divider",
   },
-  getItem("Navigation Three", "sub4", <SettingOutlined />, [
-    getItem("Option 9", "9"),
-    getItem("Option 10", "10"),
-    getItem("Option 11", "11"),
-    getItem("Option 12", "12"),
+  getItem("JPG", "sub2", <AppstoreOutlined />, [
+    getItem("TINYPNG", "6"),
+    getItem("PNG", "7"),
+    getItem("PDF", "8"),
+    getItem("ICO", "9"),
   ]),
-  getItem(
-    "Group",
-    "grp",
-    null,
-    [getItem("Option 13", "13"), getItem("Option 14", "14")],
-    "group"
-  ),
+  {
+    type: "divider",
+  },
+  getItem("JPEG", "sub4", <AppstoreOutlined />, [
+    getItem("PNG", "10"),
+    getItem("PDF", "11"),
+    getItem("ICO", "12"),
+  ]),
 ];
 
 const getBase64 = (file) =>
@@ -74,6 +60,14 @@ const getBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 function Convert() {
+  const [listConvertByFile, setListConvertByFile] = useState();
+  useEffect(() => {
+    setListConvertByFile({
+      jpeg: ["png", "gif", "pdf", "ico"],
+      jpg: ["tinyPNG", "png", "gif", "pdf", "ico"],
+      png: ["tinyPNG", "jpeg", "jpg", "pdf", "ico"],
+    });
+  }, []);
   const [fileList, setFileList] = useState([]);
 
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -83,9 +77,6 @@ function Convert() {
   const handleCancel = () => setPreviewOpen(false);
 
   const handlePreview = async (file) => {
-    console.log(`file---------------`, file);
-    console.log(`file.response.message------------`, file.response.message);
-
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
@@ -99,7 +90,13 @@ function Convert() {
   function onDrop(e) {
     console.log("Dropped files", e.dataTransfer.files);
   }
-
+  function getListOptionConverter(list, dataType) {
+    var option = [];
+    list[dataType].map((file) => {
+      option.push({ value: file, label: file.toUpperCase() });
+    });
+    return option;
+  }
   function onChange(info) {
     let newFileList = [...info.fileList];
     newFileList = newFileList.map((file) => {
@@ -127,12 +124,16 @@ function Convert() {
     };
     xhr.send();
   };
+  const handleUploadClick = (file,_this) => {
+    if(!file.upload_type){
+      alert("not")
+    }
+    // let valueType = document.getElementById(uid).closest('.ant-select-selector').find('.ant-select-selection-item').html()
+    console.log(file);
+  };
   return (
     <>
-      <div style={{ textAlign: "center" }}>
-        <h1 className="text-color">Chuyển <span>PNG</span> sang <span>JPG</span></h1>
-      </div>
-      <div style={{ display:"flex" }}>
+      <div style={{ display: "flex" }}>
         <div>
           <Menu
             // onClick={onClick}
@@ -140,7 +141,6 @@ function Convert() {
               width: 256,
             }}
             defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
             mode="inline"
             items={items}
           />
@@ -149,15 +149,22 @@ function Convert() {
           className="uk-card uk-card-default uk-card-hover uk-card-body form-section"
           style={{ height: "auto !important" }}
         >
+          <div style={{ textAlign: "center" }}>
+            <h1 className="text-color">
+              Chuyển <span>PNG</span> sang <span>JPG</span>
+            </h1>
+          </div>
           <div className="uk-container uk-text-center">
             <div className="upload-container">
               <div className="upload-container-form">
                 <Upload.Dragger
                   name="file"
                   multiple={true}
+                  accept={"image/*"}
                   onChange={(e) => onChange(e)}
-                  action="http://convert.getlinktraffic.space/convert.php"
-                  data={{ to: "tinyPNG" }}
+                  // action="http://convert.getlinktraffic.space/convert.php"
+                  // data={{ to: "tinyPNG" }}
+                  beforeUpload={() => false}
                   fileList={fileList}
                   showUploadList={{ showDownloadIcon: true }}
                   onPreview={handlePreview}
@@ -167,9 +174,9 @@ function Convert() {
                     fileList,
                     { preview, remove }
                   ) => {
+                    console.log(file);
                     const percent = file.percent;
-
-                    if (percent !== 100) {
+                    if (percent === 100) {
                       return (
                         <div className="ant-upload-list-item ant-upload-list-item-uploading">
                           <div className="ant-upload-list-item-thumbnail">
@@ -252,20 +259,128 @@ function Convert() {
                         </div>
                       );
                     } else {
-                      let response = file.response?.data;
+                      // let response = file.response?.data;
+                      var extension = file.name.split(".").pop();
+                      let dataType = file.type.split("/")[1];
+                      if (extension.includes("jpeg")) {
+                        dataType = "jpeg";
+                      } else if (extension.includes("jpg")) {
+                        dataType = "jpg";
+                      }
                       let sizeOld = "";
                       let sizeNew = "";
                       let percent = "";
                       let downloadLink = "";
-                      if (response) {
-                        response = JSON.parse(response);
-                        sizeOld = response.oldSize;
-                        sizeNew = response.newSize;
-                        percent = response.percent;
-                        downloadLink = file.response.message;
-                      }
-                      console.log(`downloadLink`, downloadLink);
-                      console.log(`response`, response);
+                      let OptionType = getListOptionConverter(
+                        listConvertByFile,
+                        dataType
+                      );
+                      console.log(`OptionType`, OptionType);
+                      console.log(`file`, file);
+                      // return (
+                      //   <div className="ant-upload-list-item ant-upload-list-item-done">
+                      //     <div className="col1">
+                      //       <a
+                      //         className="ant-upload-list-item-thumbnail"
+                      //         target="_blank"
+                      //         rel="noopener noreferrer"
+                      //         onClick={() => handlePreview(file)}
+                      //       >
+                      //         <img
+                      //           src={file.thumbUrl}
+                      //           alt={file.name}
+                      //           className="ant-upload-list-item-image"
+                      //         />
+                      //       </a>
+                      //       <span
+                      //         className="ant-upload-list-item-name"
+                      //         title={file.name}
+                      //       >
+                      //         {file.name}
+                      //       </span>
+                      //     </div>
+                      //     <div className="col2">
+                      //       <span
+                      //         style={{ fontSize: "10px" }}
+                      //         className="ant-upload-list-item-name"
+                      //         title={sizeOld}
+                      //       >
+                      //         {sizeOld}
+                      //       </span>
+                      //       <span
+                      //         style={{ fontSize: "15px", color: "#7EB631" }}
+                      //         className="ant-upload-list-item-name"
+                      //         title={sizeNew}
+                      //       >
+                      //         {sizeNew}
+                      //       </span>
+                      //       <span
+                      //         className="ant-upload-list-item-name"
+                      //         title={percent}
+                      //       >
+                      //         {percent}
+                      //       </span>
+                      //       <span className="ant-upload-list-item-actions picture">
+                      //         <button
+                      //           title="Download file"
+                      //           type="button"
+                      //           class="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text ant-btn-sm ant-btn-icon-only ant-upload-list-item-action"
+                      //           onClick={() =>
+                      //             handleDownloadClick(downloadLink)
+                      //           }
+                      //         >
+                      //           <span class="ant-btn-icon">
+                      //             <span
+                      //               role="img"
+                      //               aria-label="download"
+                      //               tabindex="-1"
+                      //               class="anticon anticon-download"
+                      //             >
+                      //               <svg
+                      //                 viewBox="64 64 896 896"
+                      //                 focusable="false"
+                      //                 data-icon="download"
+                      //                 width="1em"
+                      //                 height="1em"
+                      //                 fill="currentColor"
+                      //                 aria-hidden="true"
+                      //               >
+                      //                 <path d="M505.7 661a8 8 0 0012.6 0l112-141.7c4.1-5.2.4-12.9-6.3-12.9h-74.1V168c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v338.3H400c-6.7 0-10.4 7.7-6.3 12.9l112 141.8zM878 626h-60c-4.4 0-8 3.6-8 8v154H214V634c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v198c0 17.7 14.3 32 32 32h684c17.7 0 32-14.3 32-32V634c0-4.4-3.6-8-8-8z"></path>
+                      //               </svg>
+                      //             </span>
+                      //           </span>
+                      //         </button>
+                      //         <button
+                      //           title="Remove file"
+                      //           type="button"
+                      //           onClick={() => remove(file)}
+                      //           className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text ant-btn-sm ant-btn-icon-only ant-upload-list-item-action"
+                      //           style={{ marginLeft: "5px" }}
+                      //         >
+                      //           <span className="ant-btn-icon">
+                      //             <span
+                      //               role="img"
+                      //               aria-label="delete"
+                      //               className="anticon anticon-delete"
+                      //             >
+                      //               <svg
+                      //                 viewBox="64 64 896 896"
+                      //                 focusable="false"
+                      //                 data-icon="delete"
+                      //                 width="1em"
+                      //                 height="1em"
+                      //                 fill="currentColor"
+                      //                 aria-hidden="true"
+                      //               >
+                      //                 <path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path>
+                      //               </svg>
+                      //             </span>
+                      //           </span>
+                      //         </button>
+                      //       </span>
+                      //     </div>
+                      //   </div>
+                      // );
                       return (
                         <div className="ant-upload-list-item ant-upload-list-item-done">
                           <div className="col1">
@@ -282,26 +397,33 @@ function Convert() {
                               />
                             </a>
                             <span
-                              className="ant-upload-list-item-name"
+                              className="ant-upload-list-item-name truncate"
                               title={file.name}
                             >
                               {file.name}
                             </span>
+                            <Tag color="red">
+                              {" "}
+                              <b>{Math.round(file.size / 1024)}</b> KB
+                            </Tag>
                           </div>
                           <div className="col2">
-                            <span
-                              style={{ fontSize: "10px" }}
-                              className="ant-upload-list-item-name"
-                              title={sizeOld}
-                            >
-                              {sizeOld}
-                            </span>
                             <span
                               style={{ fontSize: "15px", color: "#7EB631" }}
                               className="ant-upload-list-item-name"
                               title={sizeNew}
                             >
-                              {sizeNew}
+                              <Select
+                              defaultValue={null}
+                              onChange={(value) => {
+                               file.upload_type = value;
+                              }}
+                                id={file.uid}
+                                style={{ width: 120 }}
+                                options={OptionType}
+                                size="large"
+
+                              />
                             </span>
                             <span
                               className="ant-upload-list-item-name"
@@ -310,62 +432,29 @@ function Convert() {
                               {percent}
                             </span>
                             <span className="ant-upload-list-item-actions picture">
-                              <button
-                                title="Download file"
-                                type="button"
-                                class="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text ant-btn-sm ant-btn-icon-only ant-upload-list-item-action"
-                                onClick={() =>
-                                  handleDownloadClick(downloadLink)
+                              <Button
+                                type="primary"
+                                icon={
+                                  <CloudUploadOutlined
+                                    style={{ color: "white" }}
+                                  />
                                 }
-                              >
-                                <span class="ant-btn-icon">
-                                  <span
-                                    role="img"
-                                    aria-label="download"
-                                    tabindex="-1"
-                                    class="anticon anticon-download"
-                                  >
-                                    <svg
-                                      viewBox="64 64 896 896"
-                                      focusable="false"
-                                      data-icon="download"
-                                      width="1em"
-                                      height="1em"
-                                      fill="currentColor"
-                                      aria-hidden="true"
-                                    >
-                                      <path d="M505.7 661a8 8 0 0012.6 0l112-141.7c4.1-5.2.4-12.9-6.3-12.9h-74.1V168c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v338.3H400c-6.7 0-10.4 7.7-6.3 12.9l112 141.8zM878 626h-60c-4.4 0-8 3.6-8 8v154H214V634c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v198c0 17.7 14.3 32 32 32h684c17.7 0 32-14.3 32-32V634c0-4.4-3.6-8-8-8z"></path>
-                                    </svg>
-                                  </span>
-                                </span>
-                              </button>
-                              <button
+                                size="large"
+                                onClick={() => handleUploadClick(file)}
+                              ></Button>
+                              <Button
+                                size="large"
+                                type="dashed"
+                                danger
+                                icon={
+                                  <DeleteOutlined
+                                    style={{ color: "#cf1323" }}
+                                  />
+                                }
                                 title="Remove file"
-                                type="button"
                                 onClick={() => remove(file)}
-                                className="ant-btn css-dev-only-do-not-override-1ck3jst ant-btn-text ant-btn-sm ant-btn-icon-only ant-upload-list-item-action"
                                 style={{ marginLeft: "5px" }}
-                              >
-                                <span className="ant-btn-icon">
-                                  <span
-                                    role="img"
-                                    aria-label="delete"
-                                    className="anticon anticon-delete"
-                                  >
-                                    <svg
-                                      viewBox="64 64 896 896"
-                                      focusable="false"
-                                      data-icon="delete"
-                                      width="1em"
-                                      height="1em"
-                                      fill="currentColor"
-                                      aria-hidden="true"
-                                    >
-                                      <path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path>
-                                    </svg>
-                                  </span>
-                                </span>
-                              </button>
+                              ></Button>
                             </span>
                           </div>
                         </div>
@@ -374,9 +463,9 @@ function Convert() {
                   }}
                   listType="picture"
                 >
-                   <div style={{ fontSize: 50, color: '#999' }}>
-      <InboxOutlined />
-    </div>
+                  <div style={{ fontSize: 50, color: "#999" }}>
+                    <InboxOutlined />
+                  </div>
                   <p>Drag here</p>
                 </Upload.Dragger>
                 <Modal

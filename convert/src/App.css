@@ -27,6 +27,18 @@ body {
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
+.truncate {
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+h1.text-color {
+  font-weight: 400;
+}
+h1.text-color span {
+  font-weight: 700;
+}
 .uk-card.uk-card-default.uk-card-hover.uk-card-body.form-section {
   width: 100%;
 }
