@@ -1,48 +1,45 @@
 import "./App.css";
 // f59178ab70df48bc83797911eebc20d9
-
-import React, { Component } from "react";
-import Navbar from "./components/Navbar";
+import React from "react";
 import News from "./components/News";
-import { Loading } from "./components/Loading";
 //react-router
-import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+import {Route, Routes as ReactRoutes} from "react-router-dom";
 import Convert from "./components/Convert";
+import Home from "./pages/Home/Home";
 import Blog from "./components/blog";
-export default class App extends Component {
-  render() {
-    return (
-      <>
-      
-        <BrowserRouter>
-          <Navbar />
+import MainLayout from "./layout/MainLayout";
 
-          <Routes>
-            <Route path="/convert" element={<Convert />} />
-            <Route path="/" element={<Blog />} />
-            <Route
-              path="/blog"
-              element={
-                <Blog
-                  key={"business"}
-                  pageSize={9}
-                  country="in"
-                  category="business"
-                />
-              }
-            ></Route>
-            <Route
-              path="/news"
-              element={
-                <News
-                  key={"business"}
-                  pageSize={9}
-                  country="in"
-                  category="business"
-                />
-              }
-            ></Route>
-            {/* <Route exact path="/Science">
+function App() {
+	return (
+		<ReactRoutes>
+		<Route element={<MainLayout/>}>
+			<Route index element={<Home/>}/>
+			<Route path="/sport" element={<Convert/>}/>
+			<Route path="/convert" element={<Home/>}/>
+			<Route path="/convert/:id" element={<Home/>}/>
+			<Route
+				path="/blog"
+				element={
+					<Blog
+						key={"business"}
+						pageSize={9}
+						country="in"
+						category="business"
+					/>
+				}
+			></Route>
+			<Route
+				path="/news"
+				element={
+					<News
+						key={"business"}
+						pageSize={9}
+						country="in"
+						category="business"
+					/>
+				}
+			></Route>
+			{/* <Route exact path="/Science">
               <News
                 key={"science"}
                 pageSize={9}
@@ -82,10 +79,9 @@ export default class App extends Component {
                 category="health"
               />
             </Route> */}
-          </Routes>
-        </BrowserRouter>
-        <Outlet></Outlet>
-      </>
-    );
-  }
+		</Route>
+		</ReactRoutes>
+	);
 }
+
+export default App;

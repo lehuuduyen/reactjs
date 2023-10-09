@@ -55236,18 +55236,6 @@ tags-input .tags input {
     font-size: 4rem
 }
 
-::-moz-selection {
-    background-color: #0dac50;
-    color: #fff;
-    text-shadow: none
-}
-
-::selection {
-    background-color: #0dac50;
-    color: #fff;
-    text-shadow: none
-}
-
 #empty-grid-filter-alltime.no-data,
 .k-grid-content .no-data,
 .table-primary .no-data {

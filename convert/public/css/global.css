@@ -43888,12 +43888,6 @@ html {
     text-shadow: none
 }
 
-.login ::selection {
-    background: #4bac4d;
-    color: #fff;
-    text-shadow: none
-}
-
 .login a {
     color: #fff;
     text-decoration: none
@@ -55195,18 +55189,6 @@ tags-input .tags input {
 .k-grid-content .no-data:before,
 .table-primary .no-data:before {
     font-size: 4rem
-}
-
-::-moz-selection {
-    background-color: #0dac50;
-    color: #fff;
-    text-shadow: none
-}
-
-::selection {
-    background-color: #0dac50;
-    color: #fff;
-    text-shadow: none
 }
 
 #empty-grid-filter-alltime.no-data,
