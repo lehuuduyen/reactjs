@@ -1,36 +1,42 @@
 body main {
     max-width: 100%;
 }
-.col1{
+
+.col1 {
     display: flex;
-    flex:1;
+    flex: 1;
     align-items: center;
     text-align: left;
 }
-.col2{
+
+.col2 {
     display: flex;
     width: 50%;
 }
+
 .uk-section-xsmall {
     padding-top: 20px;
     padding-bottom: 20px
 }
-.text-color{
-    background:  linear-gradient(90deg, rgba(240,27,27,1) 25%, rgba(205,173,107,1) 70%, rgba(85,189,160,1) 74%);
+
+.text-color {
+    background: linear-gradient(90deg, rgba(240, 27, 27, 1) 25%, rgba(205, 173, 107, 1) 70%, rgba(85, 189, 160, 1) 74%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
 }
+
 .uk-text-center {
     text-align: center !important;
 }
+
 .btn-light {
     /* display:block; */
     /* width:100%; */
     height: 50px;
     padding: 0 20px !important;
     background: white !important;
-    box-shadow: 0 7px 14px 0 rgba(50,50,93,.1), 0 3px 6px 0 rgba(0,0,0,.07);
+    box-shadow: 0 7px 14px 0 rgba(50, 50, 93, .1), 0 3px 6px 0 rgba(0, 0, 0, .07);
 }
 
 div {
@@ -43,13 +49,16 @@ div {
     margin-right: auto;
     margin-left: auto;
 }
-.ant-upload-wrapper .ant-upload-drag{
-border-width: 2px !important;
-background: transparent;
+
+.ant-upload-wrapper .ant-upload-drag {
+    border-width: 2px !important;
+    background: transparent;
 }
-.ant-upload-wrapper .ant-upload-drag p{
+
+.ant-upload-wrapper .ant-upload-drag p {
     margin: 0;
-    }
+}
+
 .upload-container-form {
     /* border: 1px solid #a00; */
     margin: 10px auto;
@@ -200,6 +209,7 @@ background: transparent;
         background-size: 30%
     }
 }
+
 .file-icon {
     font-family: Arial, Tahoma, sans-serif;
     font-weight: 300;
@@ -374,15 +384,15 @@ background: transparent;
 
 
 
-#wrapper{
-    position:relative;
+#wrapper {
+    position: relative;
     /*background:#333;*/
-    height:100%;
+    height: 100%;
 }
 
-.profile-main-loader{
+.profile-main-loader {
     left: 50% !important;
-    margin-left:-100px;
+    margin-left: -100px;
     position: fixed !important;
     top: 50% !important;
     margin-top: -100px;
@@ -391,107 +401,125 @@ background: transparent;
 }
 
 .profile-main-loader .loader {
-  position: relative;
-  margin: 0px auto;
-  width: 200px;
-  height:200px;
+    position: relative;
+    margin: 0px auto;
+    width: 200px;
+    height: 200px;
 }
+
 .profile-main-loader .loader:before {
-  content: '';
-  display: block;
-  padding-top: 100%;
+    content: '';
+    display: block;
+    padding-top: 100%;
 }
 
 .circular-loader {
-  -webkit-animation: rotate 2s linear infinite;
-          animation: rotate 2s linear infinite;
-  height: 100%;
-  -webkit-transform-origin: center center;
-      -ms-transform-origin: center center;
-          transform-origin: center center;
-  width: 100%;
-  top: 0;
-  left: 0;
-  margin: auto;
+    -webkit-animation: rotate 2s linear infinite;
+    animation: rotate 2s linear infinite;
+    height: 100%;
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    transform-origin: center center;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin: auto;
 }
 
 .loader-path {
-  stroke-dasharray: 150,200;
-  stroke-dashoffset: -10;
-  -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
-          animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
-  stroke-linecap: round;
+    stroke-dasharray: 150, 200;
+    stroke-dashoffset: -10;
+    -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    stroke-linecap: round;
 }
 
 @-webkit-keyframes rotate {
-  100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes rotate {
-  100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
+
 @-webkit-keyframes dash {
-  0% {
-    stroke-dasharray: 1,200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 89,200;
-    stroke-dashoffset: -35;
-  }
-  100% {
-    stroke-dasharray: 89,200;
-    stroke-dashoffset: -124;
-  }
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35;
+    }
+
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124;
+    }
 }
+
 @keyframes dash {
-  0% {
-    stroke-dasharray: 1,200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 89,200;
-    stroke-dashoffset: -35;
-  }
-  100% {
-    stroke-dasharray: 89,200;
-    stroke-dashoffset: -124;
-  }
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35;
+    }
+
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124;
+    }
 }
+
 @-webkit-keyframes color {
-  0% {
-    stroke: #70c542;
-  }
-  40% {
-    stroke: #70c542;
-  }
-  66% {
-    stroke: #70c542;
-  }
-  80%, 90% {
-    stroke: #70c542;
-  }
+    0% {
+        stroke: #70c542;
+    }
+
+    40% {
+        stroke: #70c542;
+    }
+
+    66% {
+        stroke: #70c542;
+    }
+
+    80%,
+    90% {
+        stroke: #70c542;
+    }
 }
+
 @keyframes color {
-  0% {
-    stroke: #70c542;
-  }
-  40% {
-    stroke: #70c542;
-  }
-  66% {
-    stroke: #70c542;
-  }
-  80%, 90% {
-    stroke: #70c542;
-  }
+    0% {
+        stroke: #70c542;
+    }
+
+    40% {
+        stroke: #70c542;
+    }
+
+    66% {
+        stroke: #70c542;
+    }
+
+    80%,
+    90% {
+        stroke: #70c542;
+    }
 }
+
 .ant-progress-inner {
     position: relative;
     display: inline-block;
@@ -501,9 +529,43 @@ background: transparent;
     background-color: rgba(0, 0, 0, 0.06);
     border-radius: 100px;
 }
+
 .ant-progress-bg {
     position: relative;
     background-color: #1677ff;
     border-radius: 100px;
     transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+}
+
+.ant-cart-cover img {
+    height: 220px;
+}
+
+.col-md-4 .ant-layout {
+    height: 100%;
+}
+
+.row .col-md-4 {
+    height: 350px;
+}
+
+.row .col-md-4 img {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    object-fit: cover;
+}
+
+.row .ant-card-cover {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    overflow: hidden;
+}
+
+@media only screen and (min-width: 1600px) {
+    .row .col-md-4 {
+        height: 450px;
+    }
+   
 }

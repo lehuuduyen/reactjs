@@ -24,9 +24,9 @@ export class Navbar extends Component {
         <div className="collapse navbar-collapse " id="navbarSupportedContent">
           <ul className="navbar-nav sp-font h5">
             <li className="nav-item mx-2">
-              <a className="nav-link" href="/Business">
-                Business
-              </a>
+              <Link className="nav-link" to="/blog">
+                Blog
+              </Link>
             </li>
             <li className="nav-item mx-2">
               <Link className="nav-link" to="/convert">
@@ -34,9 +34,9 @@ export class Navbar extends Component {
               </Link>
             </li>
             <li className="nav-item mx-2">
-              <a className="nav-link" href="/Sports">
-                Sports
-              </a>
+              <Link className="nav-link" to="/news">
+                Tin tức nước ngoài
+              </Link>
             </li>
             <li className="nav-item mx-2">
               <a className="nav-link" href="/Health">

@@ -4,25 +4,35 @@ import "./App.css";
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
 import News from "./components/News";
-import { ToastContainer } from "react-toastify";
 import { Loading } from "./components/Loading";
 //react-router
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import Convert from "./components/Convert";
+import Blog from "./components/blog";
 export default class App extends Component {
   render() {
     return (
       <>
-      <ToastContainer />
-
+      
         <BrowserRouter>
           <Navbar />
 
           <Routes>
             <Route path="/convert" element={<Convert />} />
-            <Route path="/" element={<Convert />} />
+            <Route path="/" element={<Blog />} />
             <Route
-              path="/Business"
+              path="/blog"
+              element={
+                <Blog
+                  key={"business"}
+                  pageSize={9}
+                  country="in"
+                  category="business"
+                />
+              }
+            ></Route>
+            <Route
+              path="/news"
               element={
                 <News
                   key={"business"}

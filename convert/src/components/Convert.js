@@ -126,7 +126,7 @@ function Convert() {
   };
   const handleUploadClick = (file,_this) => {
     if(!file.upload_type){
-      alert("not")
+
     }
     // let valueType = document.getElementById(uid).closest('.ant-select-selector').find('.ant-select-selection-item').html()
     console.log(file);
