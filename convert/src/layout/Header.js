@@ -8,11 +8,11 @@ import {InteractionOutlined, MenuOutlined} from '@ant-design/icons';
 const {Header} = Layout;
 
 const MENU = [
-	{label: 'Kinh Doanh', to: '/business'},
-	{label: 'Thể Thao', to: '/sport'},
-	{label: 'Sức Khỏe', to: '/health'},
-	{label: 'Khoa Học', to: '/science'},
-	{label: 'Công Nghệ', to: '/tech'},
+	{label: 'Blog', to: '/blog'},
+	{label: 'Tin tức nước ngoài', to: '/news'},
+	{label: 'Thời tiết', to: '/health'},
+	// {label: 'Khoa Học', to: '/science'},
+	// {label: 'Công Nghệ', to: '/tech'},
 ]
 
 function HeaderCustom() {

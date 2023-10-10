@@ -4,7 +4,6 @@ import React from "react";
 import News from "./components/News";
 //react-router
 import {Route, Routes as ReactRoutes} from "react-router-dom";
-import Convert from "./components/Convert";
 import Home from "./pages/Home/Home";
 import Blog from "./components/blog";
 import MainLayout from "./layout/MainLayout";
@@ -14,7 +13,7 @@ function App() {
 		<ReactRoutes>
 		<Route element={<MainLayout/>}>
 			<Route index element={<Home/>}/>
-			<Route path="/sport" element={<Convert/>}/>
+			<Route path="/sport" element={<Home/>}/>
 			<Route path="/convert" element={<Home/>}/>
 			<Route path="/convert/:id" element={<Home/>}/>
 			<Route

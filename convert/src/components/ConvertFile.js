@@ -5,6 +5,7 @@ import Title from "./Title";
 import ItemUpload from "./ItemUpload";
 import {NavLink, useParams} from "react-router-dom";
 import {CloudUploadOutlined, DeleteOutlined} from "@ant-design/icons";
+import ConvertGuide from "./ConvertGuide";
 
 
 const  typeAccept = ['image/png', 'image/jpg', 'image/jpeg']
@@ -123,6 +124,7 @@ function ConvertFile() {
 					<p>Bấm để tải lên hoặc kéo thả file vào tại đây </p>
 				</Upload.Dragger>
 			</Card>
+			<ConvertGuide from={params[0]} to={params[1]}/>
 		</Col>
 	</Row>
 }

@@ -63,7 +63,7 @@ export class News extends Component {
         {/* headline */}
         <div className="container my-3">
           <div className="text-center headline">
-            <h1>
+            <h1 style={{ color: "red", fontSize: "35px" }}>
               {this.props.category.charAt(0).toUpperCase() +
                 this.props.category.slice(1)}
             </h1>
@@ -75,7 +75,11 @@ export class News extends Component {
             {!this.state.loading &&
               this.state.articles.map((items, id) => {
                 return (
-                  <div className="col-md-4 col-sm-6 col-xs-12" style={{ margin:"10px 0px" }}  key={items.url}>
+                  <div
+                    className="col-md-4 col-sm-6 col-xs-12"
+                    style={{ margin: "10px 0px" }}
+                    key={items.url}
+                  >
                     <Layout>
                       <Content>
                         <NewsItem

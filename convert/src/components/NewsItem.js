@@ -5,29 +5,27 @@ import React, { Component } from "react";
 export class NewsItem extends Component {
   render() {
     return (
-      <Card
-      hoverable
-      style={{ width: '100%',    height: "100%" }}
-      cover={<img alt="example" src={this.props.imageURL} />}
-    >
-      <Meta title={this.props.title} description={this.props.description} />
-    </Card>
-      // <div className="my-3">
-      //   <div className="card">
-      //     <img
-      //       className="card-img-top"
-      //       src={this.props.imageURL}
-      //       alt="Card image cap"
-      //     />
-      //     <div className="card-body">
-      //       <h5 className="card-title">{this.props.title}</h5>
-      //       <p className="card-text">{this.props.description}</p>
-      //       <a href={this.props.newsURL} target="_blank" className="btn btn-sm btn-primary">
-      //         Read more
-      //       </a>
-      //     </div>
-      //   </div>
-      // </div>
+      <a href={this.props.imageURL} target="_blank" rel="noreferrer" style={{ textDecoration: "none" }}>
+        <Card
+          hoverable
+          style={{ width: "100%", height: "100%" }}
+          cover={<img alt="example" src={this.props.imageURL} loading={true} />}
+        >
+          <div class="ant-card-meta">
+            <div class="ant-card-meta-detail">
+              <div class="ant-card-meta-title">
+                <h2>{this.props.title}</h2>
+              </div>
+              <div
+                class="ant-card-meta-description"
+                dangerouslySetInnerHTML={{
+                  __html: this.props.description.replace(/\r\n\r\n/g, "<br />"),
+                }}
+              ></div>
+            </div>
+          </div>
+        </Card>
+      </a>
     );
   }
 }

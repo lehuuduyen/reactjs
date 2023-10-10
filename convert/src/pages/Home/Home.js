@@ -23,11 +23,7 @@ function Home() {
 					<ConvertFile/>
 				</Col>
 			</Row>
-			<Row>
-				<Col span={24}>
-					<ConvertGuide from={params[0]} to={params[1]}/>
-				</Col>
-			</Row>
+			
 		</div>
 	</div>
 }
