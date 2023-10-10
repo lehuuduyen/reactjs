@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {Alert, Button, Card, Col, Image, Modal, Progress, Row, Select, Spin, Tag, Tooltip} from "antd";
 import {
 	ArrowRightOutlined,
-	CloseCircleOutlined,
 	CloudUploadOutlined,
 	DeleteOutlined,
 	DownloadOutlined,
@@ -42,16 +41,17 @@ function ItemUpload(props) {
 	const [selectedOption, setSelectedOption] = useState('')
 
 	useEffect(async () => {
-		console.log(file)
-		const dataType = file.type.split("/")[1]
-		const options = CONVERT_OPTIONS[dataType].map((item) => {
-			return {value: item, label: item.toUpperCase()}
-		})
-		if (!file.url && !file.preview) {
-			file.preview = await getBase64(file.originFileObj);
+		if (file) {
+			const dataType = file.type.split("/")[1];
+			const options = CONVERT_OPTIONS[dataType] && CONVERT_OPTIONS[dataType].map((item) => {
+				return {value: item, label: item.toUpperCase()}
+			})
+			if (!file.url && !file.preview) {
+				file.preview = await getBase64(file.originFileObj);
+			}
+			setOptionType(options)
+			options && setSelectedOption(options[0].value)
 		}
-		setOptionType(options)
-		setSelectedOption(options[0].value)
 	}, [file])
 
 
@@ -67,7 +67,6 @@ function ItemUpload(props) {
 	};
 
 	const onChangeType = (value) => {
-		console.log(value)
 		setSelectedOption(value);
 	}
 
@@ -97,7 +96,6 @@ function ItemUpload(props) {
 	}
 
 	const handleUploadClick = (file, _this) => {
-		console.log(file);
 		setStatusUpload(1);
 		let formData = new FormData();
 		formData.append("file", file.originFileObj);
@@ -105,26 +103,21 @@ function ItemUpload(props) {
 
 		const config = {
 			onUploadProgress: progressEvent => {
-				console.log(progressEvent)
 				setPercent(progressEvent.progress * 100)
 			}
 		}
 
 		axios.post('http://convert.getlinktraffic.space/convert.php', formData, config).then((res) => {
-			console.log(res)
 			const {data, message, error} = res.data;
 			if (res.data.success) {
-				console.log(JSON.parse(data))
 				setFileConverted(JSON.parse(data))
 				setDownloadLink(message)
 				setStatusUpload(2);
 			} else {
-				console.log(res.data)
 				setError(error || res.data)
 				setStatusUpload(3)
 			}
 		}).catch((err) => {
-			console.log(err)
 			setStatusUpload(0)
 			setIsException(true)
 		});
@@ -132,24 +125,24 @@ function ItemUpload(props) {
 
 
 	return <Card className="card_upload">
-		<Row align='middle'>
-			<Col sm={10}>
+		<Row align='middle' gutter={20}>
+			<Col xs={24} lg={8}>
 				<Row align='middle' justify='start' gutter={20}>
-					<Col sm={4}>
+					<Col xs={4}>
 						<Image
 							style={{maxHeight: 40}}
 							src={file.preview}
 							alt={file.name}
 						/>
 					</Col>
-					<Col sm={20}>
+					<Col xs={20}>
 						<Tooltip title={file.name}>
 							<div className="truncate">{file.name}</div>
 						</Tooltip>
 					</Col>
 				</Row>
 			</Col>
-			<Col sm={14}>
+			<Col xs={24} lg={16}>
 				{statusUpload === 1 ?
 					<Row>
 						<Progress
@@ -157,9 +150,9 @@ function ItemUpload(props) {
 							percent={percent} showInfo={false} status={isException ? 'exception' : 'normal'}/>
 					</Row> :
 					<Row align='middle'>
-						<Col sm={15}>
-							{statusUpload !== 3 &&<Row gutter={20} align='middle'>
-								 <Col>
+						<Col sm={15} md={10}>
+							{statusUpload !== 3 && <Row gutter={20} align='middle'>
+								<Col>
 									<Select
 										value={selectedOption}
 										disabled={downloadLink && fileConverted}
@@ -182,7 +175,7 @@ function ItemUpload(props) {
 								</Col>
 							</Row>}
 						</Col>
-						<Col sm={statusUpload === 3 ? 24 : 9} style={{textAlign: 'right'}} className="action">
+						<Col sm={statusUpload === 3 ? 24 : 9} md={statusUpload === 3 ? 24 : 14} style={{textAlign: 'right'}} className="action">
 							{statusUpload === 0 || statusUpload === 1 ? <div className="action">
 								<Button
 									loading={statusUpload === 1}
@@ -211,8 +204,10 @@ function ItemUpload(props) {
 									></Button>
 								</Tooltip>
 							</div> : <div className="action">
-								{statusUpload === 3 && <Alert message={error} type="error" showIcon /> }
-								{statusUpload !== 3 && <div onClick={() => handleDownloadClick()} className="btn__download"><DownloadOutlined/>Download</div>}
+								{statusUpload === 3 && <Alert message={error} type="error" showIcon/>}
+								{statusUpload !== 3 &&
+									<div onClick={() => handleDownloadClick()} className="btn__download"><DownloadOutlined/>Download
+									</div>}
 								<Tooltip title="Try another type">
 									<Button
 										size="large"

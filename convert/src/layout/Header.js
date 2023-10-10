@@ -41,25 +41,25 @@ function HeaderCustom() {
 				</Col>
 				<Col xs={0} lg={20} className="header__right">
 					<Row>
-						<Col xs={20}>
+						<Col xs={18}>
 							<nav className="header__nav">
 								{MENU.map((item, index) =>
 									<NavLink key={index} to={item.to}
 													 className={({isActive}) => (isActive ? 'active' : '')}>{item.label}</NavLink>)}
 							</nav>
 						</Col>
-						<Col xs={4} className="header__action">
+						<Col xs={6} className="header__action">
 							<LinkButton to="/convert">Chuyển đổi File</LinkButton>
 						</Col>
 					</Row>
 				</Col>
 				<Col xs={6} lg={0}>
 					<div className='action'>
-						<a to="/convert" className="btn__download"><InteractionOutlined/></a>
-						<Button type="primary" onClick={showDrawer} icon={<MenuOutlined/>} className='btn__download'>
+						<NavLink to="/convert" className="btn__upload"><InteractionOutlined style={{color: 'white', fontSize: 20}}/></NavLink>
+						<Button type="primary" onClick={showDrawer} icon={<MenuOutlined/>} className='btn__upload'>
 						</Button>
-						<Drawer placement="right" onClose={onClose} open={open}>
-							{MENU.map((item, index) => <NavLink key={index} to={item.to}>{item.label}</NavLink>)}
+						<Drawer placement="right" onClose={onClose} open={open} className='menu_drawer'>
+							{MENU.map((item, index) => <NavLink key={index} to={item.to} onClick={onClose}>{item.label}</NavLink>)}
 						</Drawer>
 					</div>
 				</Col>

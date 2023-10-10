@@ -1,24 +1,12 @@
 import Header from "./Header";
-import React, {useEffect} from "react";
+import React from "react";
 import {Outlet} from "react-router-dom";
 
-function MainLayout(){
-	useEffect(() => {
-		console.log('ádalk')
-		const handleScroll = (event) => {
-			console.log(event)
-		};
-
-		window.addEventListener('scroll', handleScroll);
-
-		return () => {
-			window.removeEventListener('scroll', handleScroll);
-		};
-	}, []);
-
+function MainLayout() {
 	return <>
 		<Header/>
-		<Outlet />
+		<Outlet/>
 	</>
 }
+
 export default MainLayout;

@@ -1,4 +1,4 @@
-import {Badge, Button, Card, Col, Divider, Row, message, Upload} from "antd";
+import {Badge, Button, Card, Col, Divider, message, Row, Upload} from "antd";
 import "./ConvertFile.css";
 import React, {useEffect, useState} from "react";
 import Title from "./Title";
@@ -8,7 +8,7 @@ import {CloudUploadOutlined, DeleteOutlined} from "@ant-design/icons";
 import ConvertGuide from "./ConvertGuide";
 
 
-const  typeAccept = ['image/png', 'image/jpg', 'image/jpeg']
+const typeAccept = ['image/png', 'image/jpg', 'image/jpeg']
 
 function ConvertFile() {
 	const [fileList, setFileList] = useState([]);
@@ -17,7 +17,7 @@ function ConvertFile() {
 	const {id} = useParams();
 
 	useEffect(() => {
-		if(id){
+		if (id) {
 			const splitId = id.split('-');
 			setParams([splitId[1].toUpperCase(), splitId[3].toUpperCase()])
 		}
@@ -25,21 +25,27 @@ function ConvertFile() {
 
 	function onChange(info) {
 		const isValidType = typeAccept.includes(info.file.type);
+		const indexFile = info.fileList.findIndex(item => item.uid === info.file.uid);
 		if (!isValidType) {
+
+			console.log('indexFail', indexFile, info.file.uid)
+			info.fileList.splice(indexFile, 1);
 			messageApi.open({
 				type: 'error',
 				content: `${info.file.name} is not correct format type. Only accept PNG, JPG and JPEG`,
 			});
-		}else{
-			let newFileList = [...info.fileList];
-			newFileList = newFileList.map((file) => {
-				if (file.response) {
-					file.url = file.response.url;
-				}
-				return file;
-			});
-			setFileList(newFileList);
+			console.log('log 2')
 		}
+
+		console.log(info)
+		let newFileList = [...info.fileList];
+		newFileList = newFileList.map((file) => {
+			if (file.response) {
+				file.url = file.response.url;
+			}
+			return file;
+		});
+		setFileList(newFileList);
 	}
 
 	const onRemoveAll = () => {
@@ -56,20 +62,38 @@ function ConvertFile() {
 		<Col xs={24} md={7} lg={5}>
 			<Card className="convert convert__list">
 				<Divider orientation='left'><b>PNG</b></Divider>
-				<NavLink to='/convert/chuyen-png-sang-tinypng' className={({isActive}) => (isActive ? 'active': '')}><Badge status="default" color="white" text="TINYPNG"/></NavLink>
-				<NavLink to='/convert/chuyen-png-sang-jpeg' className={({isActive}) => (isActive ? 'active': '')}><Badge status="default" color="white" text="JPEG" /></NavLink>
-				<NavLink to='/convert/chuyen-png-sang-jpg' className={({isActive}) => (isActive ? 'active': '')}><Badge status="default" color="white" text="JPG" /></NavLink>
-				<NavLink to='/convert/chuyen-png-sang-pdf' className={({isActive}) => (isActive ? 'active': '')}><Badge status="default" color="white" text="PDF" /></NavLink>
-				<NavLink to='/convert/chuyen-png-sang-ico' className={({isActive}) => (isActive ? 'active': '')}><Badge status="default" color="white" text="ICO" /></NavLink>
+				<div className="convert__list--wrap">
+					<NavLink to='/convert/chuyen-png-sang-tinypng' className={({isActive}) => (isActive ? 'active' : '')}><Badge
+						status="default" color="white" text="TINYPNG"/></NavLink>
+					<NavLink to='/convert/chuyen-png-sang-jpeg' className={({isActive}) => (isActive ? 'active' : '')}><Badge
+						status="default" color="white" text="JPEG"/></NavLink>
+					<NavLink to='/convert/chuyen-png-sang-jpg' className={({isActive}) => (isActive ? 'active' : '')}><Badge
+						status="default" color="white" text="JPG"/></NavLink>
+					<NavLink to='/convert/chuyen-png-sang-pdf' className={({isActive}) => (isActive ? 'active' : '')}><Badge
+						status="default" color="white" text="PDF"/></NavLink>
+					<NavLink to='/convert/chuyen-png-sang-ico' className={({isActive}) => (isActive ? 'active' : '')}><Badge
+						status="default" color="white" text="ICO"/></NavLink>
+				</div>
 				<Divider orientation='left'><b>JPG</b></Divider>
-				<NavLink to='/convert/chuyen-jpg-sang-tinypng' className={({isActive}) => (isActive ? 'active': '')}><Badge status="default" color="white" text="TINYPNG" /></NavLink>
-				<NavLink to='/convert/chuyen-jpg-sang-png' className={({isActive}) => (isActive ? 'active': '')}><Badge status="default" color="white" text="PNG" /></NavLink>
-				<NavLink to='/convert/chuyen-jpg-sang-pdf' className={({isActive}) => (isActive ? 'active': '')}><Badge status="default" color="white" text="PDF" /></NavLink>
-				<NavLink to='/convert/chuyen-jpg-sang-ico' className={({isActive}) => (isActive ? 'active': '')}><Badge status="default" color="white" text="ICO" /></NavLink>
+				<div className="convert__list--wrap">
+					<NavLink to='/convert/chuyen-jpg-sang-tinypng' className={({isActive}) => (isActive ? 'active' : '')}><Badge
+						status="default" color="white" text="TINYPNG"/></NavLink>
+					<NavLink to='/convert/chuyen-jpg-sang-png' className={({isActive}) => (isActive ? 'active' : '')}><Badge
+						status="default" color="white" text="PNG"/></NavLink>
+					<NavLink to='/convert/chuyen-jpg-sang-pdf' className={({isActive}) => (isActive ? 'active' : '')}><Badge
+						status="default" color="white" text="PDF"/></NavLink>
+					<NavLink to='/convert/chuyen-jpg-sang-ico' className={({isActive}) => (isActive ? 'active' : '')}><Badge
+						status="default" color="white" text="ICO"/></NavLink>
+				</div>
 				<Divider orientation='left'><b>JPEG</b></Divider>
-				<NavLink to='/convert/chuyen-jpeg-sang-png' className={({isActive}) => (isActive ? 'active': '')}><Badge status="default" color="white" text="PNG" /></NavLink>
-				<NavLink to='/convert/chuyen-jpeg-sang-pdf' className={({isActive}) => (isActive ? 'active': '')}><Badge status="default" color="white" text="PDF" /></NavLink>
-				<NavLink to='/convert/chuyen-jpeg-sang-ico' className={({isActive}) => (isActive ? 'active': '')}><Badge status="default" color="white" text="ICO" /></NavLink>
+				<div className="convert__list--wrap">
+					<NavLink to='/convert/chuyen-jpeg-sang-png' className={({isActive}) => (isActive ? 'active' : '')}><Badge
+						status="default" color="white" text="PNG"/></NavLink>
+					<NavLink to='/convert/chuyen-jpeg-sang-pdf' className={({isActive}) => (isActive ? 'active' : '')}><Badge
+						status="default" color="white" text="PDF"/></NavLink>
+					<NavLink to='/convert/chuyen-jpeg-sang-ico' className={({isActive}) => (isActive ? 'active' : '')}><Badge
+						status="default" color="white" text="ICO"/></NavLink>
+				</div>
 			</Card>
 		</Col>
 		<Col xs={24} md={17} lg={19}>
@@ -95,7 +119,7 @@ function ConvertFile() {
 									<DeleteOutlined/>
 								}
 								size="large"
-								onClick={()=> onRemoveAll()}
+								onClick={() => onRemoveAll()}
 							>Remove All</Button>
 						</div>
 					</Col>}

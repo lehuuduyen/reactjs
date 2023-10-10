@@ -1,27 +1,11 @@
 .header{
-    background-color: transparent;
     height: auto;
     position: relative;
     transition: all .3s linear;
-}
-
-.header__right{
-    position: relative;
-}
-
-.header__right::after{
-    content: '';
-    position: absolute;
-    width: calc(100% + 50px);
-    height: calc(100% + 30px);
-    top: -15px;
-    right: -50px;
-    z-index: -1;
-    background: #141E30;
-    background: -webkit-linear-gradient(to right, #243B55, #141E30);
-    background: linear-gradient(to right, #243B55, #141E30);
-    border-radius: 0 0 0 150px;
-    box-shadow: 0 0 13px 0 #636363;
+    background: rgba(255,255,255,0.7);
+    -webkit-backdrop-filter: blur(7px);
+    backdrop-filter: blur(7px);
+    box-shadow: 0 0 15px #e1e1e1;
 }
 
 .header a {
@@ -45,7 +29,6 @@
 }
 
 .header__logo a{
-    color: white;
     background: -webkit-linear-gradient(#243B55, #141E30);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -66,7 +49,7 @@
 }
 
 .header__nav a{
-    color: white;
+    color: #141E30;
     line-height: 1;
     display: inline-block;
     text-transform: uppercase;
@@ -88,22 +71,6 @@
     }
 }
 
-@media screen and (max-width: 991px) {
-    .header{
-        padding: 0 20px;
-        background: -webkit-linear-gradient(to right, #243B55, #141E30);
-        background: linear-gradient(to right, #243B55, #141E30);
-        box-shadow: 0 0 13px 0 #636363;
-    }
-
-    .header__logo a{
-        color: white;
-        background: transparent;
-        -webkit-background-clip: unset;
-        -webkit-text-fill-color: unset;
-    }
-}
-
 .header__nav a::after{
     content: '';
     position: absolute;
@@ -111,7 +78,7 @@
     left: 50%;
     width: 40px;
     height: 1px;
-    background-color: white;
+    background-color: #141E30;
     box-shadow: 0 0 7px #898989;
     transition: all .1s linear;
     border-radius: 30px;
@@ -129,4 +96,25 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+}
+
+.menu_drawer .ant-drawer-body{
+   display: block;
+}
+
+.menu_drawer .ant-drawer-body a{
+    display: block;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 5px;
+    margin: 1px 0;
+    color: #141E30;
+}
+
+.menu_drawer .ant-drawer-body a:hover, .menu_drawer .ant-drawer-body a.active{
+    font-weight: bold;
+    background: -webkit-linear-gradient(to right, #243B55, #141E30);
+    background: linear-gradient(to right, #243B55, #141E30);
+    color: white;
+    text-decoration: none;
 }
