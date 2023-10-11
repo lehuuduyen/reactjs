@@ -10,6 +10,14 @@ body {
 button.btn-sm.btn.btn-color.mx-5 {
   color: black;
 }
+.category_post_img img,.feature-img img{
+  width: 100%;
+}
+.all_post .sidebar_widget .single_sidebar_wiget {
+  background-color: #fbf2ee;
+  padding: 30px;
+  margin-bottom: 30px;
+}
 .test {
   position: absolute;
   width: 80vw;

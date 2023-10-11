@@ -7,13 +7,15 @@ import { Content, Header } from "antd/es/layout/layout";
 import { API_BACKEND } from "../helper/config";
 import axios from "axios";
 
-function Blog() {
+function Blog(states) {
 	const [listData, setListData] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [state, setState] = useState([]);
+
 
   useEffect(() => {
     const url = API_BACKEND + `post`;
-    console.log(url);
+    setState(states)
     axios
       .get(url)
       .then((res) => {
@@ -35,7 +37,7 @@ function Blog() {
       <div className="container my-3">
         <div className="text-center headline">
           <h1 style={{ color: "red", fontSize: 35 }}>
-           
+           {state.category}
           </h1>
         </div>
         {/* spinner */}
@@ -55,6 +57,9 @@ function Blog() {
                       <NewsItem 
                         title={
                           (items.title ? items.title.slice(0, 45) : "") + ".."
+                        }
+                        slug={
+                          (items.slug)
                         }
                         description={
                           (items.short_description

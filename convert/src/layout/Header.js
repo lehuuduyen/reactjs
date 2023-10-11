@@ -31,6 +31,7 @@ function HeaderCustom() {
 		top: 0,
 		zIndex: 100,
 		width: '100%',
+		marginBottom: 20,
 		display: 'flex',
 		alignItems: 'center',
 	}}>

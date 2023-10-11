@@ -1,11 +1,15 @@
 import { Card } from "antd";
 import Meta from "antd/es/card/Meta";
 import React, { Component } from "react";
-
+import { Link } from "react-router-dom";
+function onclick(params) {
+    console.log(params)
+}
 export class NewsItem extends Component {
+  
   render() {
     return (
-      <a href={this.props.imageURL} target="_blank" rel="noreferrer" style={{ textDecoration: "none" }}>
+      <Link style={{ textDecoration: "none" }} to={`/detail/${(this.props.slug)?this.props.slug:this.props.title}`}>
         <Card
           hoverable
           style={{ width: "100%", height: "100%" }}
@@ -25,7 +29,7 @@ export class NewsItem extends Component {
             </div>
           </div>
         </Card>
-      </a>
+      </Link>
     );
   }
 }

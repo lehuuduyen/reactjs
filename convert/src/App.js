@@ -7,15 +7,16 @@ import {Route, Routes as ReactRoutes} from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Blog from "./components/blog";
 import MainLayout from "./layout/MainLayout";
+import Detail from "./components/Detail";
 
 function App() {
 	return (
 		<ReactRoutes>
 		<Route element={<MainLayout/>}>
 			<Route index element={<Home/>}/>
-			<Route path="/sport" element={<Home/>}/>
-			<Route path="/convert" element={<Home/>}/>
 			<Route path="/convert/:id" element={<Home/>}/>
+			<Route path="/detail/:id" element={<Detail/>}/>
+
 			<Route
 				path="/blog"
 				element={

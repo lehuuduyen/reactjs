@@ -15,7 +15,6 @@ export class News extends Component {
     };
     this.handleNext = this.handleNext.bind(this);
     this.handlePrevious = this.handlePrevious.bind(this);
-    console.log(11111111111111111);
   }
   // function to handle next and previous.
   async handleNext() {
@@ -90,6 +89,9 @@ export class News extends Component {
                             (items.description
                               ? items.description.slice(0, 85)
                               : "") + "..."
+                          }
+                          content={
+                            (items.content)
                           }
                           imageURL={
                             items.urlToImage
